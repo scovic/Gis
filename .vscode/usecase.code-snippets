@@ -1,0 +1,42 @@
+{
+	"UseCase generation": {
+		"scope": "typescript",
+		"prefix": "usecase",
+		"body": [
+			"export class $1InteractorError extends Error {",
+			"  constructor (message: string) {",
+			"    super(`[$1Interactor] Error - \\${message\\}`)",
+			"  }",
+			"}",
+			"",
+			"export type $1InputData = {",
+			"}",
+			"",
+			"export interface I$1Input {",
+			"  $2 (inputData: $1InputData): Promise<void>",
+			"}",
+			"",
+			"export interface I$1Output {",
+			"  displaySuccess ($3): void",
+			"  displayError (error: Error): void",
+			"}",
+			"",
+			"export default class $1Interactor implements I$1Input {",
+			"  constructor (",
+			"    private output: I$1Output",
+			"  ) { }",
+			" ",
+			"  public async $2 (inputData: $1InputData): Promise<void> {",
+			"    try {",
+			"    } catch (err) {",
+			"      this.output.displayError(",
+			"        new $1InteractorError(err.message)",
+			"      )",
+			"    }",
+			"  }",
+			"}",
+			""
+		],
+		"description": "Generate a use case file"
+	}
+}
