@@ -16,7 +16,7 @@ export interface IDeleteTeamInput {
 }
 
 export interface IDeleteTeamOutput {
-    displaySuccess (team: Team): void
+    displaySuccess (): void
     displayError (error: Error): void
 }
 
@@ -29,7 +29,7 @@ export default class DeleteTeamInteractor implements IDeleteTeamInput {
     public async deleteTeam (inputData: DeleteTeamInputData): Promise<void> {
         try {
             await this.interact(inputData);
-        } catch (err) {
+        } catch (err: any) {
             this.output.displayError(
                 new DeleteTeamInteractorError(err.message)
             );
@@ -37,8 +37,7 @@ export default class DeleteTeamInteractor implements IDeleteTeamInput {
     }
 
     private async interact (inputData: DeleteTeamInputData): Promise<void> {
-        const team = await this.deleteTeamGateway.getTeam(inputData.teamId);
         await this.deleteTeamGateway.deleteTeam(inputData.teamId);
-        this.output.displaySuccess(team);
+        this.output.displaySuccess();
     }
 }

@@ -1,5 +1,6 @@
-import TeamList from "../../valueObject/TeamList";
+import Team from "../../entity/Team";
+import EntityList from "../../valueObject/EntityList";
 
-export interface IListItemsGateway {
-    getTeams(): Promise<TeamList>
+export interface IListTeamsGateway {
+    getTeams(): Promise<EntityList<Team>>   
 }

@@ -1,4 +1,4 @@
-import Employee from "../../domain/entity/Employee";
+import Employee from "../domain/entity/Employee";
 
 export type EmployeePresentationData = {
     id: string,

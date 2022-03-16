@@ -1,4 +1,4 @@
-import Team from "../../domain/entity/Team";
+import Team from "../domain/entity/Team";
 import EmployeePresentation, { EmployeePresentationData } from "./EmployeePresentation";
 
 export type TeamPresentationData = {

@@ -1,6 +1,9 @@
+import Employee from "../../entity/Employee";
 import Team from "../../entity/Team";
-import EmployeeList from "../../valueObject/EmployeeList";
+import EntityList from "../../valueObject/EntityList";
+import UUID from "../../valueObject/UUID";
 
 export interface ICreateTeamGateway {
-    createTeam (id: string, employees: EmployeeList): Promise<Team>
+    getEmployeeList (ids: UUID[]): Promise<EntityList<Employee>>
+    createTeam (id: UUID, employees: EntityList<Employee>): Promise<Team>
 }

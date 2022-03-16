@@ -1,5 +1,5 @@
 import Employee from "../../entity/Employee";
-import { ICreateEmployeeGateway } from "../../gateway/employee/ICreateEmployeeGateway";
+import { IEmployeeGateway } from "../../gateway/employee/IEmployeeGateway";
 import { IIdGenerator } from "../../gateway/IIdGenerator";
 import NonEmptyString from "../../valueObject/NonEmptyString";
 import UUID from "../../valueObject/UUID";
@@ -28,13 +28,13 @@ export default class CreateEmployeeInteractor implements ICreateEmployeeInput {
     constructor (
         private output: ICreateEmployeeOutput,
         private idGenerator: IIdGenerator<UUID>,
-        private createEmployeeGateway: ICreateEmployeeGateway
+        private createEmployeeGateway: IEmployeeGateway
     ) { }
  
     public async createEmployee (inputData: CreateEmployeeInputData): Promise<void> {
         try {
             await this.interact(inputData);
-        } catch (err) {
+        } catch (err: any) {
             this.output.displayError(
                 new CreateEmployeeInteractorError(err.message)
             );

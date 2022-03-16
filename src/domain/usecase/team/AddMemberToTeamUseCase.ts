@@ -31,7 +31,9 @@ export default class AddMemberToTeamInteractor implements IAddMemberToTeamInput 
         try {
             await this.interact(inputData);
         } catch (err) {
-            this.output.displayError(err);
+            this.output.displayError(
+                new AddMemberToTeamInteractorError(err.message)
+            );
         }
     }
 

@@ -1,5 +1,5 @@
 import Employee, { EmployeeProps } from "../../entity/Employee";
 
-export interface ICreateEmployeeGateway {
+export interface IEmployeeGateway {
     createEmployee (id: string, employee: EmployeeProps): Promise<Employee>
 }
