@@ -41,6 +41,18 @@ export default class PatrolDataSource extends DatabaseDataSource implements IPat
         }
     }
 
+    public async getPatrol (id: string): Promise<PatrolData> {
+        try {
+            const patrolRow = await this.knex(this._tableName)
+                .select("*")
+                .where({ id });
+
+            return this._convertToPatrolData(patrolRow);
+        } catch (err: any) {
+            throw new PatrolDataSourceError(err.message);
+        }
+    }
+
     private _convertToPatrolData (patrolRow: any): PatrolData {
         return {
             id: patrolRow.id,

@@ -1,6 +1,7 @@
 import { DatabaseEmployeeInput, IEmployeeDataSource } from "../../datasource/employee/IEmployeeDataSource";
 import { IPatrolDataSource } from "../../datasource/patrol/IPatrolDataSource";
 import { IPatrolEmployeeMapDataSource } from "../../datasource/patrolEmployeeMapDataSource/IPatrolEmployeeMapDataSource";
+import { IPatrolPatrolStopMapDataSource } from "../../datasource/patrolPatrolStopMapDataSource/IPatrolPatrolStopMapDataSource";
 import { IPatrolStopDataSource, PatrolStopDbRow } from "../../datasource/patrolStop/IPatrolStopDataSource";
 import Employee from "../../domain/entity/Employee";
 import Patrol, { PatrolStatus } from "../../domain/entity/Patrol";
@@ -17,7 +18,8 @@ export default class CreatePatrolRepository implements ICreatePatrolGateway {
         private patrolDataSource: IPatrolDataSource,
         private patrolStopDataSource: IPatrolStopDataSource,
         private patrolEmployeeMapDataSource: IPatrolEmployeeMapDataSource,
-        private employeeDataSource: IEmployeeDataSource
+        private employeeDataSource: IEmployeeDataSource,
+        private patrolPatrolStopMapDataSource: IPatrolPatrolStopMapDataSource
     ) {}
 
     public async createPatrol (id: UUID, patrol: PatrolInputData): Promise<Patrol> { 
@@ -46,7 +48,10 @@ export default class CreatePatrolRepository implements ICreatePatrolGateway {
     }
 
     private async _getPatrolStops (patrolId: UUID): Promise<EntityList<PatrolStop>> {
-        const patrolStopRows = await this.patrolStopDataSource.getStopsForPatrol(patrolId.getId());
+        const patrolStopPatrolMap = await this.patrolPatrolStopMapDataSource.getPatrolStops(patrolId.getId());
+        const patrolStopRows = await this.patrolStopDataSource.getStopsByIds(
+            patrolStopPatrolMap.map(patrolPatrolStop => patrolPatrolStop.id)
+        );
 
         return EntityList.create(
             patrolStopRows.map(patrolStopRow => this._createPatrolStopEntity(patrolStopRow))

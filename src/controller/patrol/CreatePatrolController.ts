@@ -4,7 +4,6 @@ import HttpEmitter from "../../presenter/core/HttpEmitter/HttpEmiter";
 import CreatePatrolPresenter from "../../presenter/patrol/CreatePatrolPresenter";
 import RepositoryFactory from "../../repository/RepositoryFactory";
 
-
 export default class CreatePatrolController {
     constructor (private repositoryFactory: RepositoryFactory) {}
 

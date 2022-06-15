@@ -9,4 +9,5 @@ export type PatrolData = {
 export interface IPatrolDataSource {
     createPatrol (patrolInput: PatrolData): Promise<PatrolData>
     updatePatrol (patrol: PatrolData): Promise<PatrolData>
+    getPatrol (id: string): Promise<PatrolData>
 }

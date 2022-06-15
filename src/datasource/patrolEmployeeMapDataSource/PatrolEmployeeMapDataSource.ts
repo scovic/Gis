@@ -24,6 +24,17 @@ export default class PatrolEmployeeMapDataSource extends DatabaseDataSource impl
         }
     }
 
+    public async getPatrolMembers (patrolId: string): Promise<PatrolEmployeeMapData[]> {
+        try {
+            const patrolEmployeeMapRows = await this.knex(this._tableName)
+                .select("*")
+                .where({ patrol_id: patrolId });
+            return patrolEmployeeMapRows.map(row => this._convertToPatrolEmployeeData(row));
+        } catch (err: any) {
+            throw new PatrolEmployeeMapDataSourceError(err.message);
+        }
+    }
+
     private _prepareInsertData (patrolId: string, memberIds: string[]) {
         return memberIds.map(memberId => ({ patrol_id: patrolId, employee_id: memberId }));
     }

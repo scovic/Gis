@@ -29,7 +29,7 @@ export default class EmployeeDataSource extends DatabaseDataSource implements IE
 
     public async getEmployees (): Promise<DatabaseEmployeeData[]> {
         try {
-            const employeeRows = await this.knex(this._tableName);
+            const employeeRows = await this.knex(this._tableName).select("*");
             return employeeRows.map(row => this.convertToEmployeeData(row));
         } catch (err: any) {
             throw new EmployeeDataSourceError(`[getEmployees] - ${err.message}`); 

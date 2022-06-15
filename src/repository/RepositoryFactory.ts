@@ -1,6 +1,7 @@
 import { IEmployeeGateway } from "../domain/gateway/employee/IEmployeeGateway";
 import { IIdGenerator } from "../domain/gateway/IIdGenerator";
 import { ICreatePatrolGateway } from "../domain/gateway/patrol/ICreatePatrolGateway";
+import { IGetPatrolGateway } from "../domain/gateway/patrol/IGetPatrolGateway";
 import { IUpdatePatrolStatusGateway } from "../domain/gateway/patrol/IUpdatePatrolStatusGateway";
 import UUID from "../domain/valueObject/UUID";
 
@@ -10,7 +11,8 @@ export default class RepositoryFactory {
         private readonly idGeneratorRepository: IIdGenerator<UUID>,
         private readonly employeeRepository: IEmployeeGateway,
         private readonly createPatrolRepository: ICreatePatrolGateway,
-        private readonly updatePatrolStatusRepository: IUpdatePatrolStatusGateway
+        private readonly updatePatrolStatusRepository: IUpdatePatrolStatusGateway,
+        private readonly getPatrolRepository: IGetPatrolGateway
     ) { }
 
     public getIdGeneratorRepository (): IIdGenerator<UUID> {
@@ -27,5 +29,9 @@ export default class RepositoryFactory {
 
     public getUpdatePatrolStatusRepository (): IUpdatePatrolStatusGateway {
         return this.updatePatrolStatusRepository;
+    }
+
+    public getGetPatrolRepository (): IGetPatrolGateway {
+        return this.getPatrolRepository;
     }
 }

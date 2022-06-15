@@ -2,22 +2,21 @@ import Config from "./config/Config";
 
 import EmployeeController from "./controller/employee/EmployeeController";
 import CreatePatrolController from "./controller/patrol/CreatePatrolController";
+import GetPatrolController from "./controller/patrol/GetPatrolController";
 import UpdatePatrolStatusController from "./controller/patrol/UpdatePatrolStatusController";
-import AddMemberToTeamController from "./controller/team/AddMemberToTeamController";
-import CreateTeamController from "./controller/team/CreateTeamController";
-import DeleteTeamController from "./controller/team/DeleteTeamController";
-import ListTeamsController from "./controller/team/ListTeamsController";
 
 import EmployeeDataSource from "./datasource/employee/EmployeeDataSource";
 import PatrolDataSource from "./datasource/patrol/PatrolDataSource";
+import PatrolEmployeeMapDataSource from "./datasource/patrolEmployeeMapDataSource/PatrolEmployeeMapDataSource";
+import PatrolPatrolStopMapDataSource from "./datasource/patrolPatrolStopMapDataSource/PatrolPatrolStopMapDataSource";
 import PatrolStopDataSource from "./datasource/patrolStop/PatrolStopDataSource";
-import GisKnexWrapper from "./infrastructure/db/GisKnex";
 
 import KnexWrapper from "./infrastructure/db/Knex";
 
 import EmployeeRepository from "./repository/employee/EmployeeRepository";
 import IdGeneratorRepository from "./repository/IdGeneratorRepository";
 import CreatePatrolRepository from "./repository/patrol/CreatePatrolRepository";
+import GetPatrolRepository from "./repository/patrol/GetPatrolRepository";
 import UpdatePatrolStatusRepository from "./repository/patrol/UpdatePatrolStatusRepository";
 import RepositoryFactory from "./repository/RepositoryFactory";
 
@@ -25,7 +24,6 @@ export default class Dependency {
     private static instance: Dependency | undefined = undefined
     private config: Config
     private knex: KnexWrapper
-    private gisKnexWrapper: GisKnexWrapper
     private repositoryFactory: RepositoryFactory
 
     public static makeDependency (env: any): Dependency {
@@ -38,7 +36,6 @@ export default class Dependency {
     private constructor (env: any) {
         this.config = new Config(env);
         this.knex = new KnexWrapper(this.config.getDbConfig());
-        this.gisKnexWrapper = new GisKnexWrapper(this.knex.getKnex());
         this.repositoryFactory = this.createRepositoryFactory();
     }
 
@@ -54,20 +51,8 @@ export default class Dependency {
         return new UpdatePatrolStatusController(this.repositoryFactory);
     }
 
-    public getCreateTeamController (): CreateTeamController {
-        return new CreateTeamController(this.repositoryFactory);
-    }
-
-    public getDeleteTeamController (): DeleteTeamController {
-        return new DeleteTeamController(this.repositoryFactory);
-    }
-
-    public getAddMemberToTeamController (): AddMemberToTeamController {
-        return new AddMemberToTeamController(this.repositoryFactory);
-    }
-
-    public getListTeamsController (): ListTeamsController {
-        return new ListTeamsController(this.repositoryFactory);
+    public getGetPatrolController (): GetPatrolController {
+        return new GetPatrolController(this.repositoryFactory);
     }
 
     public getConfig (): Config {
@@ -78,12 +63,27 @@ export default class Dependency {
         const employeeDataSource = new EmployeeDataSource(this.knex);
         const patrolStopDataSource = new PatrolStopDataSource(this.knex);
         const patrolDataSource = new PatrolDataSource(this.knex);
+        const patrolEmployeeMap = new PatrolEmployeeMapDataSource(this.knex);
+        const patrolPatrolStopMap = new PatrolPatrolStopMapDataSource(this.knex);
 
         return new RepositoryFactory(
             new IdGeneratorRepository(),
             new EmployeeRepository(employeeDataSource),
-            new CreatePatrolRepository(patrolDataSource, patrolStopDataSource),
-            new UpdatePatrolStatusRepository(patrolDataSource)
+            new CreatePatrolRepository(
+                patrolDataSource,
+                patrolStopDataSource,
+                patrolEmployeeMap,
+                employeeDataSource,
+                patrolPatrolStopMap
+            ),
+            new UpdatePatrolStatusRepository(patrolDataSource),
+            new GetPatrolRepository(
+                patrolDataSource,
+                patrolStopDataSource,
+                patrolEmployeeMap,
+                patrolPatrolStopMap,
+                employeeDataSource
+            )
         );
     }
 }
