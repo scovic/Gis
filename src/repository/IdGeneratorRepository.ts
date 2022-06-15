@@ -14,7 +14,7 @@ export default class IdGeneratorRepository implements IIdGenerator<UUID> {
             return Promise.resolve(
                 UUID.create(uuidv4())
             );   
-        } catch (err) {
+        } catch (err: any) {
             throw new IdGeneratorError(err.message);
         }
     }

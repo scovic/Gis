@@ -49,7 +49,7 @@ export default class Config {
                     port: Config.toNumber("PORT", env.PORT)
                 }
             };
-        } catch (err) {
+        } catch (err: any) {
             throw new ConfigError(err.message);
         }
     }
