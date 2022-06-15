@@ -1,10 +1,10 @@
 import Patrol from "../domain/entity/Patrol";
+import EmployeePresentation from "./EmployeePresentation";
 import PatrolStopPresentation from "./PatrolStopPresentation";
-import TeamPresentation from "./TeamPresentation";
 
 export type PatrolPresentationData = {
     stops: PatrolStopPresentation[],
-    team: TeamPresentation,
+    team: EmployeePresentation[],
     period: {
         from: number,
         to: number
@@ -18,7 +18,9 @@ export default class PatrolPresentation {
             stops: patrol.stops.getValue().map(stop => (
                 PatrolStopPresentation.present(stop)
             )),
-            team: TeamPresentation.present(patrol.team),
+            team: patrol.team.getValue().map(employee => (
+                EmployeePresentation.present(employee)
+            )),
             period: {
                 from: patrol.period.getValue().from,
                 to: patrol.period.getValue().to

@@ -1,5 +1,4 @@
 
-
 export type DatabaseEmployeeInput = {
     id: string
     firstName: string
@@ -15,6 +14,7 @@ export type DatabaseEmployeeData = {
 export interface IEmployeeDataSource {
     createEmployee (input: DatabaseEmployeeInput): Promise<DatabaseEmployeeData>
     getEmployees (): Promise<DatabaseEmployeeData[]>
+    getEmployeesByIds (ids: string[]): Promise<DatabaseEmployeeData[]>
     getEmployee (id: string): Promise<DatabaseEmployeeData>
     updateEmployee (inputData: DatabaseEmployeeData): Promise<DatabaseEmployeeData>
     deleteEmployee (id: string): Promise<void>

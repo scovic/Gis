@@ -1,3 +1,4 @@
+
 import { DatabaseEmployeeData, IEmployeeDataSource } from "../../datasource/employee/IEmployeeDataSource";
 import Employee, { EmployeeProps } from "../../domain/entity/Employee";
 import { IEmployeeGateway } from "../../domain/gateway/employee/IEmployeeGateway";
@@ -13,15 +14,15 @@ export class EmployeeRepositoryError extends Error {
 export default class EmployeeRepository implements IEmployeeGateway {
     constructor (private _datasource: IEmployeeDataSource) {}
 
-    public async createEmployee (id: string, props: EmployeeProps): Promise<Employee> {
+    public async createEmployee (id: UUID, props: EmployeeProps): Promise<Employee> {
         try {
             const row = await this._datasource.createEmployee({
-                id,
+                id: id.getValue(),
                 firstName: props.firstName.getValue(),
                 lastName: props.lastName.getValue()
             });
             return this.makeEmployee(row);
-        } catch (err) {
+        } catch (err: any) {
             throw new EmployeeRepositoryError(`[createEmployee] - ${err.message}`);
         }
     }

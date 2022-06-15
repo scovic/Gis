@@ -1,12 +1,14 @@
-import Patrol, { PatrolProps } from "../../entity/Patrol";
-import PatrolStop from "../../entity/PatrolStop";
-import Team from "../../entity/Team";
-import EntityList from "../../valueObject/EntityList";
+import Patrol, { PatrolStatus } from "../../entity/Patrol";
+import TimePeriod from "../../valueObject/TimePeriod";
 import UUID from "../../valueObject/UUID";
 
+export type PatrolInputData = {
+    stopIds: UUID[],
+    memberIds: UUID[],
+    period: TimePeriod,
+    status: PatrolStatus
+}
 
 export interface ICreatePatrolGateway {
-    getPatrolStops (patrolStopIds: UUID[]): Promise<EntityList<PatrolStop>>
-    getTeam (id: UUID): Promise<Team>
-    createPatrol (id: UUID, patrol: PatrolProps): Promise<Patrol>
+    createPatrol (id: UUID, patrol: PatrolInputData): Promise<Patrol>
 }

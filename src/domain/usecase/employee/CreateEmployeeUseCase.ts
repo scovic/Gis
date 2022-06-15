@@ -44,7 +44,7 @@ export default class CreateEmployeeInteractor implements ICreateEmployeeInput {
     private async interact (inputData: CreateEmployeeInputData): Promise<void> {
         const id = await this.idGenerator.generate();
         const employee = await this.createEmployeeGateway.createEmployee(
-            id.getId(),
+            id,
             {
                 firstName: NonEmptyString.create(inputData.firstName),
                 lastName:  NonEmptyString.create(inputData.lastName)

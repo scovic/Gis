@@ -11,8 +11,8 @@ export class CreatePatrolInteractorError extends Error {
 }
 
 export type CreatePatrolInputData = {
-    team: string,
-    patrolStops: string[]
+    teamMembersIds: string[],
+    patrolStopIds: string[]
     from: number | string
     to: number | string
 }
@@ -44,19 +44,16 @@ export default class CreatePatrolInteractor implements ICreatePatrolInput {
     }
 
     private async interact (data: CreatePatrolInputData): Promise<void> {
-        const patrolStopIds = data.patrolStops.map(id => UUID.create(id));
+        const patrolStopIds = data.patrolStopIds.map(id => UUID.create(id));
+        const period = TimePeriod.create({ from: data.from, to: data.to });
         const id = await this.idGenerator.generate();
-        const patrolStops = await this.createPatrolGateway.getPatrolStops(
-            patrolStopIds
-        );
-        const team = await this.createPatrolGateway.getTeam(UUID.create(data.team));
         
         const patrol = await this.createPatrolGateway.createPatrol(
             id,
             {
-                period: TimePeriod.create({ from: data.from, to: data.to }),
-                stops: patrolStops,
-                team: team,
+                period,
+                stopIds: patrolStopIds,
+                memberIds: data.teamMembersIds.map(teamMemberId => UUID.create(teamMemberId)),
                 status: PatrolStatus.PENDING
             }
         );

@@ -1,7 +1,7 @@
 import { Response } from "express";
 import UpdatePatrolStatusInteractor, { UpdatePatrolStatusInputData } from "../../domain/usecase/patrol/UpdatePatrolStatusUseCase";
 import HttpEmitter from "../../presenter/core/HttpEmitter/HttpEmiter";
-import UpdatePatrolStatusPresenter from "../../presenter/patrol/UpdatePatrolStatusUseCase";
+import UpdatePatrolStatusPresenter from "../../presenter/patrol/UpdatePatrolStatusPresenter";
 import RepositoryFactory from "../../repository/RepositoryFactory";
 
 

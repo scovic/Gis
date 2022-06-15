@@ -1,3 +1,4 @@
+
 import DatabaseDataSource from "../DatabaseDataSource";
 import { DatabaseEmployeeData, IEmployeeDataSource, DatabaseEmployeeInput } from "./IEmployeeDataSource";
 
@@ -8,7 +9,7 @@ export class EmployeeDataSourceError extends Error {
 }
 
 export default class EmployeeDataSource extends DatabaseDataSource implements IEmployeeDataSource {
-    private _tableName = "employee";
+    private readonly _tableName = "employee";
 
     public async createEmployee (inputData: DatabaseEmployeeInput): Promise<DatabaseEmployeeData> {
         try {
@@ -21,7 +22,7 @@ export default class EmployeeDataSource extends DatabaseDataSource implements IE
                 .returning("*");
                 
             return this.convertToEmployeeData(employeeRow);
-        } catch (err) {
+        } catch (err: any) {
             throw new EmployeeDataSourceError(`[createEmployee] - ${err.message}`); 
         }
     }
@@ -30,8 +31,19 @@ export default class EmployeeDataSource extends DatabaseDataSource implements IE
         try {
             const employeeRows = await this.knex(this._tableName);
             return employeeRows.map(row => this.convertToEmployeeData(row));
-        } catch (err) {
+        } catch (err: any) {
             throw new EmployeeDataSourceError(`[getEmployees] - ${err.message}`); 
+        }
+    }
+
+    public async getEmployeesByIds (ids: string[]): Promise<DatabaseEmployeeData[]> {
+        try {
+            const employeeRows = await this.knex(this._tableName).whereIn("id", ids);
+            return employeeRows.map(
+                employeeRow => this.convertToEmployeeData(employeeRow)
+            );
+        } catch (err: any) {
+            throw new EmployeeDataSourceError(`[getEmployeesByIds] - ${err.message}`); 
         }
     }
 
@@ -40,7 +52,7 @@ export default class EmployeeDataSource extends DatabaseDataSource implements IE
             const row = await this.knex(this._tableName)
                 .where({ id });
             return this.convertToEmployeeData(row);
-        } catch (err) {
+        } catch (err: any) {
             throw new EmployeeDataSourceError(`[getEmployee] - ${err.message}`); 
         }
     }
@@ -55,7 +67,7 @@ export default class EmployeeDataSource extends DatabaseDataSource implements IE
                 })
                 .returning("*");
             return this.convertToEmployeeData(updatedRow);
-        } catch (err) {
+        } catch (err: any) {
             throw new EmployeeDataSourceError(`[updateEmployee] - ${err.message}`); 
         }
     }
@@ -63,7 +75,7 @@ export default class EmployeeDataSource extends DatabaseDataSource implements IE
     public async deleteEmployee (id: string): Promise<void> {
         try {
             await this.knex(this._tableName).where({ id }).del();
-        } catch (err) {
+        } catch (err: any) {
             throw new EmployeeDataSourceError(`[deleteEmployee] - ${err.message}`); 
         }
     }

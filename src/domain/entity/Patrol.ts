@@ -1,9 +1,9 @@
 import EntityList from "../valueObject/EntityList";
 import TimePeriod from "../valueObject/TimePeriod";
 import UUID from "../valueObject/UUID";
+import Employee from "./Employee";
 import Entity from "./Entity";
 import PatrolStop from "./PatrolStop";
-import Team from "./Team";
 
 export class PatrolEntityError extends Error {
     constructor (message: string) {
@@ -20,7 +20,7 @@ export enum PatrolStatus {
 
 export type PatrolProps = {
     stops: EntityList<PatrolStop>
-    team: Team
+    team: EntityList<Employee>
     period: TimePeriod,
     status: PatrolStatus
 }
@@ -49,7 +49,7 @@ class Patrol extends Entity<string, PatrolProps> {
         return this.props.stops;
     }
 
-    public get team (): Team {
+    public get team (): EntityList<Employee> {
         return this.props.team;
     }
 
