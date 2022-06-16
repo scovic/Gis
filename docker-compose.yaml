@@ -1,0 +1,33 @@
+version: '3.9'
+
+services:
+  backend:
+    container_name: backend
+    build: .
+    command: yarn dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src:/usr/src
+      - node_modules:/var/app/node_modules
+  postgres:
+    image: postgis/postgis:14-3.2-alpine
+    container_name: postgres
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    restart: unless-stopped
+    environment:
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_DB: "${DB_NAME}"
+      POSTGRES_USER: "${DB_USERNAME}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD}"
+
+volumes:
+  db_data:
+    name: "gis-backend-postgres"
+  node_modules:
+    name: "gis-backend-node-modules"
+
+    
