@@ -2,7 +2,7 @@ import { DatabaseEmployeeData, IEmployeeDataSource } from "../../datasource/empl
 import { IPatrolDataSource } from "../../datasource/patrol/IPatrolDataSource";
 import { IPatrolEmployeeMapDataSource } from "../../datasource/patrolEmployeeMapDataSource/IPatrolEmployeeMapDataSource";
 import { IPatrolPatrolStopMapDataSource } from "../../datasource/patrolPatrolStopMapDataSource/IPatrolPatrolStopMapDataSource";
-import { IPatrolStopDataSource, PatrolStopDbRow } from "../../datasource/patrolStop/IPatrolStopDataSource";
+import { IPatrolStopDataSource, PatrolStopData } from "../../datasource/patrolStop/IPatrolStopDataSource";
 import { IGetPatrolGateway } from "../../domain/gateway/patrol/IGetPatrolGateway";
 
 import Patrol, { PatrolStatus } from "../../domain/entity/Patrol";
@@ -62,15 +62,15 @@ export default class GetPatrolRepository implements IGetPatrolGateway {
         ));
     }
 
-    private _createPatrolStopList (patrolStopDbData: PatrolStopDbRow[]): PatrolStop[] {
+    private _createPatrolStopList (patrolStopDbData: PatrolStopData[]): PatrolStop[] {
         return patrolStopDbData.map(patrolStop => (
             new PatrolStop(
                 UUID.create(patrolStop.id), 
                 {
                     name: patrolStop.name,
                     position: new Position({
-                        lat: Number(patrolStop.position.lat),
-                        lon: Number(patrolStop.position.lon)
+                        lat: Number(patrolStop.location.lat),
+                        lon: Number(patrolStop.location.lon)
                     })
                 }
             )

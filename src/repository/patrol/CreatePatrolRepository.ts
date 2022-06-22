@@ -2,7 +2,7 @@ import { DatabaseEmployeeInput, IEmployeeDataSource } from "../../datasource/emp
 import { IPatrolDataSource } from "../../datasource/patrol/IPatrolDataSource";
 import { IPatrolEmployeeMapDataSource } from "../../datasource/patrolEmployeeMapDataSource/IPatrolEmployeeMapDataSource";
 import { IPatrolPatrolStopMapDataSource } from "../../datasource/patrolPatrolStopMapDataSource/IPatrolPatrolStopMapDataSource";
-import { IPatrolStopDataSource, PatrolStopDbRow } from "../../datasource/patrolStop/IPatrolStopDataSource";
+import { IPatrolStopDataSource, PatrolStopData } from "../../datasource/patrolStop/IPatrolStopDataSource";
 import Employee from "../../domain/entity/Employee";
 import Patrol, { PatrolStatus } from "../../domain/entity/Patrol";
 import PatrolStop from "../../domain/entity/PatrolStop";
@@ -69,14 +69,14 @@ export default class CreatePatrolRepository implements ICreatePatrolGateway {
     }
 
     // TODO: move to some factory
-    private _createPatrolStopEntity (patrolStopDbRow: PatrolStopDbRow): PatrolStop {
+    private _createPatrolStopEntity (PatrolStopData: PatrolStopData): PatrolStop {
         return new PatrolStop(
-            UUID.create(patrolStopDbRow.id),
+            UUID.create(PatrolStopData.id),
             {
-                name: patrolStopDbRow.name,
+                name: PatrolStopData.name,
                 position: Position.create({ 
-                    lat: Number(patrolStopDbRow.position.lat), 
-                    lon: Number(patrolStopDbRow.position.lon) 
+                    lat: Number(PatrolStopData.location.lat), 
+                    lon: Number(PatrolStopData.location.lon) 
                 })
             }
         );

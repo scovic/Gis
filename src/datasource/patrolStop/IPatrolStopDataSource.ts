@@ -1,13 +1,13 @@
 
-export type PatrolStopDbRow = {
+export type PatrolStopData = {
     id: string
     name: string
-    position: {
+    location: {
         lat: string,
         lon: string
     }
 }
 
 export interface IPatrolStopDataSource {
-    getStopsByIds (ids: string[]): Promise<PatrolStopDbRow[]>
+    getStopsByIds (ids: string[]): Promise<PatrolStopData[]>
 }
