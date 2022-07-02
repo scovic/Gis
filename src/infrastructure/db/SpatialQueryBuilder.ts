@@ -13,7 +13,7 @@ export type WhereQuery = {
     [index: string]: any
 }
 
-// TODO: Add whereOr query
+// TODO: add insert
 export default class SpatialQueryBuilder {
     private queryString: string | null = null
 
@@ -40,8 +40,14 @@ export default class SpatialQueryBuilder {
         return this;
     }
 
+    public orWhere (column: string, value: any): SpatialQueryBuilder {
+        this._checkIfQueryStringIsInitialized();
+        this.queryString = `${this.queryString} or ${this._whereExpression(column, value)}`;
+        return this;
+    }
 
-    public where (args: any): SpatialQueryBuilder {
+
+    public where (args?: any | string, value?: any): SpatialQueryBuilder {
         this._checkIfQueryStringIsInitialized();
 
         let whereQueryPart = "";

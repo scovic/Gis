@@ -3,7 +3,7 @@ export type PatrolStopData = {
     id: string
     name: string
     location: {
-        lat: string,
+        lat: string
         lon: string
     }
 }
