@@ -3,6 +3,7 @@ import EmployeePresentation from "./EmployeePresentation";
 import PatrolStopPresentation from "./PatrolStopPresentation";
 
 export type PatrolPresentationData = {
+    id: string,
     stops: PatrolStopPresentation[],
     team: EmployeePresentation[],
     period: {
@@ -15,6 +16,7 @@ export type PatrolPresentationData = {
 export default class PatrolPresentation {
     public static present (patrol: Patrol): PatrolPresentationData {
         return {
+            id: patrol.id.getId(),
             stops: patrol.stops.getValue().map(stop => (
                 PatrolStopPresentation.present(stop)
             )),

@@ -1,8 +1,10 @@
 import PatrolStop from "../domain/entity/PatrolStop";
+import LocationPresentation from "./LocationPresentation";
 
 export type PatrolStopPresentationData = {
+    id: string
     name: string
-    position: {
+    location: {
         lat: number,
         lon: number
     }
@@ -11,11 +13,9 @@ export type PatrolStopPresentationData = {
 export default class PatrolStopPresentation {
     public static present (patrolStop: PatrolStop): PatrolStopPresentationData {
         return {
+            id: patrolStop.id.getId(),
             name: patrolStop.name,
-            position: {
-                lat: patrolStop.position.lat,
-                lon: patrolStop.position.lon
-            }
+            location: LocationPresentation.present(patrolStop.location)
         };
     }
 }

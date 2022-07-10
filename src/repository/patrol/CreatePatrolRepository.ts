@@ -9,7 +9,7 @@ import PatrolStop from "../../domain/entity/PatrolStop";
 import { ICreatePatrolGateway, PatrolInputData } from "../../domain/gateway/patrol/ICreatePatrolGateway";
 import EntityList from "../../domain/valueObject/EntityList";
 import NonEmptyString from "../../domain/valueObject/NonEmptyString";
-import Position from "../../domain/valueObject/Position";
+import Location from "../../domain/valueObject/Location";
 import TimePeriod from "../../domain/valueObject/TimePeriod";
 import UUID from "../../domain/valueObject/UUID";
 
@@ -74,7 +74,7 @@ export default class CreatePatrolRepository implements ICreatePatrolGateway {
             UUID.create(PatrolStopData.id),
             {
                 name: PatrolStopData.name,
-                position: Position.create({ 
+                location: Location.create({ 
                     lat: Number(PatrolStopData.location.lat), 
                     lon: Number(PatrolStopData.location.lon) 
                 })

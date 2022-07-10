@@ -1,31 +1,31 @@
 import ValueObject from "./ValueObject";
 
-export class PositionError extends Error {
+export class LocationError extends Error {
     constructor (message: string) {
-        super(`[Position] Error - ${message}`);
+        super(`[Location] Error - ${message}`);
     }
 }
 
-export type PositionProps = {
+export type LocationProps = {
     lon: number
     lat: number
 }
 
-export default class Position extends ValueObject<PositionProps> {
-    public static create (props: PositionProps): Position {
-        if (!this.iValid(props.lat, props.lon)) {
-            throw new PositionError("Lat or Lon value is not valid");
+export default class Location extends ValueObject<LocationProps> {
+    public static create (props: LocationProps): Location {
+        if (!this.isValid(props.lat, props.lon)) {
+            throw new LocationError("Lat or Lon value is not valid");
         }
 
-        return new Position(props);
+        return new Location(props);
     }
 
-    private static iValid (lat: number, lon: number) {
+    public static isValid (lat: number, lon: number) {
         return lon >= 0 && Math.abs(lon) <= 180 &&
             lat >= 0 && Math.abs(lat) <= 90;
     }
     
-    public isEqual (object?: ValueObject<PositionProps>): boolean {
+    public isEqual (object?: ValueObject<LocationProps>): boolean {
         if (!object) { return false; }
 
         return this.getValue().lat === object.getValue().lat &&

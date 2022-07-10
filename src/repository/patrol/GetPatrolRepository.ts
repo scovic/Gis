@@ -11,9 +11,11 @@ import EntityList from "../../domain/valueObject/EntityList";
 import Employee from "../../domain/entity/Employee";
 import NonEmptyString from "../../domain/valueObject/NonEmptyString";
 import PatrolStop from "../../domain/entity/PatrolStop";
-import Position from "../../domain/valueObject/Position";
 import TimePeriod from "../../domain/valueObject/TimePeriod";
+import Location from "../../domain/valueObject/Location";
 
+
+// TODO: Create some factory method for patrolCreation
 export default class GetPatrolRepository implements IGetPatrolGateway {
     constructor (
         private patrolDataSource: IPatrolDataSource,
@@ -68,7 +70,7 @@ export default class GetPatrolRepository implements IGetPatrolGateway {
                 UUID.create(patrolStop.id), 
                 {
                     name: patrolStop.name,
-                    position: new Position({
+                    location: new Location({
                         lat: Number(patrolStop.location.lat),
                         lon: Number(patrolStop.location.lon)
                     })

@@ -46,7 +46,6 @@ export default class SpatialQueryBuilder {
         return this;
     }
 
-
     public where (args?: any | string, value?: any): SpatialQueryBuilder {
         this._checkIfQueryStringIsInitialized();
 

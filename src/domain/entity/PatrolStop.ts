@@ -1,4 +1,4 @@
-import Position from "../valueObject/Position";
+import Location from "../valueObject/Location";
 import UUID from "../valueObject/UUID";
 import Entity from "./Entity";
 
@@ -10,7 +10,7 @@ export class PatrolStopEntityError extends Error {
 
 type PatrolStopProps = {
     name: string
-    position: Position
+    location: Location
 }
 
 class PatrolStop extends Entity<string, PatrolStopProps> {
@@ -20,7 +20,7 @@ class PatrolStop extends Entity<string, PatrolStopProps> {
 
     public get name (): string { return this.props.name; }
 
-    public get position (): Position { return this.position; }
+    public get location (): Location { return this.props.location; }
 }
 
 export default PatrolStop;

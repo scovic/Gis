@@ -7,6 +7,7 @@ import UpdatePatrolStatusController from "./controller/patrol/UpdatePatrolStatus
 
 import EmployeeDataSource from "./datasource/employee/EmployeeDataSource";
 import PatrolDataSource from "./datasource/patrol/PatrolDataSource";
+import PatrolAreaDataSource from "./datasource/patrolAreaDataSource/PatrolAreaDataSource";
 import PatrolEmployeeMapDataSource from "./datasource/patrolEmployeeMapDataSource/PatrolEmployeeMapDataSource";
 import PatrolPatrolStopMapDataSource from "./datasource/patrolPatrolStopMapDataSource/PatrolPatrolStopMapDataSource";
 import PatrolStopDataSource from "./datasource/patrolStop/PatrolStopDataSource";
@@ -16,7 +17,9 @@ import KnexWrapper from "./infrastructure/db/Knex";
 import EmployeeRepository from "./repository/employee/EmployeeRepository";
 import IdGeneratorRepository from "./repository/IdGeneratorRepository";
 import CreatePatrolRepository from "./repository/patrol/CreatePatrolRepository";
+import GetPatrolAreasRepository from "./repository/patrol/GetPatrolAreasRepository";
 import GetPatrolRepository from "./repository/patrol/GetPatrolRepository";
+import GetPatrolStopsInsideAreaRepository from "./repository/patrol/GetPatrolStopsInsideAreaRepository";
 import UpdatePatrolStatusRepository from "./repository/patrol/UpdatePatrolStatusRepository";
 import RepositoryFactory from "./repository/RepositoryFactory";
 
@@ -65,6 +68,7 @@ export default class Dependency {
         const patrolDataSource = new PatrolDataSource(this.knex);
         const patrolEmployeeMap = new PatrolEmployeeMapDataSource(this.knex);
         const patrolPatrolStopMap = new PatrolPatrolStopMapDataSource(this.knex);
+        const patrolAreaDataSource = new PatrolAreaDataSource(this.knex);
 
         return new RepositoryFactory(
             new IdGeneratorRepository(),
@@ -83,7 +87,9 @@ export default class Dependency {
                 patrolEmployeeMap,
                 patrolPatrolStopMap,
                 employeeDataSource
-            )
+            ),
+            new GetPatrolAreasRepository(patrolAreaDataSource),
+            new GetPatrolStopsInsideAreaRepository(patrolStopDataSource)
         );
     }
 }

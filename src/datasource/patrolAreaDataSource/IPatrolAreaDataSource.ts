@@ -10,6 +10,7 @@ export type PatrolAreaData = {
 
 
 export interface IPatrolAreaDataSource {
+    getAllPatrolAreas (): Promise<PatrolAreaData[]>
     getAreaById (id: string): Promise<PatrolAreaData>
     getAreaByName (name: string): Promise<PatrolAreaData>
 }

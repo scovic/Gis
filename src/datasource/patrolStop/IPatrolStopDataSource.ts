@@ -10,4 +10,5 @@ export type PatrolStopData = {
 
 export interface IPatrolStopDataSource {
     getStopsByIds (ids: string[]): Promise<PatrolStopData[]>
+    getPatrolStopsInArea (areaId: string): Promise<PatrolStopData[]>
 }
