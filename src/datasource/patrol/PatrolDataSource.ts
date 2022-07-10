@@ -32,7 +32,11 @@ export default class PatrolDataSource extends DatabaseDataSource implements IPat
         try {
             const patrolRow = await this.knex(this._tableName)
                 .where({ id })
-                .update(rest)
+                .update({
+                    status: rest.status,
+                    start: new Date(rest.start),
+                    end: new Date(rest.end)
+                })
                 .returning("*");
 
             return this._convertToPatrolData(patrolRow);

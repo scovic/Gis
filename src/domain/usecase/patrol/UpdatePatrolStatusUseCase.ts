@@ -1,4 +1,5 @@
 import Patrol, { PatrolStatus } from "../../entity/Patrol";
+import { IGetPatrolGateway } from "../../gateway/patrol/IGetPatrolGateway";
 import { IUpdatePatrolStatusGateway } from "../../gateway/patrol/IUpdatePatrolStatusGateway";
 import UUID from "../../valueObject/UUID";
 
@@ -25,6 +26,7 @@ export interface ICreatePatrolOutput {
 export default class UpdatePatrolStatusInteractor implements IUpdatePatrolStatusInput {
     constructor (
         private output: ICreatePatrolOutput,
+        private getPatrolGateway: IGetPatrolGateway,
         private updatePatrolStatusGateway: IUpdatePatrolStatusGateway
     ) {}
 
@@ -39,7 +41,7 @@ export default class UpdatePatrolStatusInteractor implements IUpdatePatrolStatus
     }
 
     private async interact (data: UpdatePatrolStatusInputData): Promise<void> {
-        const patrol = await this.updatePatrolStatusGateway.getPatrol(UUID.create(data.patrolId));
+        const patrol = await this.getPatrolGateway.getPatrol(UUID.create(data.patrolId));
         patrol.updateStatus(data.status);
         await this.updatePatrolStatusGateway.updatePatrol(patrol);
         this.output.displaySuccess(patrol);
