@@ -4,7 +4,7 @@ import HttpEmitter from "../../presenter/core/HttpEmitter/HttpEmiter";
 import GetPatrolStopsInsideAreaPresenter from "../../presenter/patrol/GetPatrolStopsInsideAreaPresenter";
 import RepositoryFactory from "../../repository/RepositoryFactory";
 
-export default class GetPatrolAreasController {
+export default class GetPatrolStopsInsideAreaController {
     constructor (private repositoryFactory: RepositoryFactory) {}
 
     public async getPatrolStopsInsideArea (input: GetPatrolStopsInsideAreaInputData, res: Response): Promise<void> {

@@ -2,7 +2,9 @@ import Config from "./config/Config";
 
 import EmployeeController from "./controller/employee/EmployeeController";
 import CreatePatrolController from "./controller/patrol/CreatePatrolController";
+import GetPatrolAreasController from "./controller/patrol/GetPatrolAreasController";
 import GetPatrolController from "./controller/patrol/GetPatrolController";
+import GetPatrolStopsInsideAreaController from "./controller/patrol/GetPatrolStopsInsideAreaController";
 import UpdatePatrolStatusController from "./controller/patrol/UpdatePatrolStatusController";
 
 import EmployeeDataSource from "./datasource/employee/EmployeeDataSource";
@@ -56,6 +58,14 @@ export default class Dependency {
 
     public getGetPatrolController (): GetPatrolController {
         return new GetPatrolController(this.repositoryFactory);
+    }
+
+    public getGetPatrolAreasController (): GetPatrolAreasController {
+        return new GetPatrolAreasController(this.repositoryFactory)
+    }
+
+    public getGetPatrolStopsInsideAreaController (): GetPatrolStopsInsideAreaController {
+        return new GetPatrolStopsInsideAreaController(this.repositoryFactory)
     }
 
     public getConfig (): Config {
