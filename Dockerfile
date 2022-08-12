@@ -26,6 +26,7 @@ WORKDIR /usr
 COPY package.json ./
 COPY tsconfig.json ./
 COPY src ./src
+COPY .env ./.env
 
 RUN npm i
 

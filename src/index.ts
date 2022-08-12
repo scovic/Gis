@@ -1,3 +1,4 @@
+import "dotenv/config";
 import Dependency from "./dependency";
 import HttpServer from "./infrastructure/api/HttpServer";
 

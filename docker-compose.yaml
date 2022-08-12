@@ -6,17 +6,18 @@ services:
     build: .
     command: yarn dev
     ports:
-      - "3000:3000"
+      - "${PORT}:3000"
     volumes:
       - ./src:/usr/src
-      - node_modules:/var/app/node_modules
+      - node_modules:/usr/node_modules
+      - .env:/usr/.env
   postgres:
     image: postgis/postgis:14-3.2-alpine
     container_name: postgres
     volumes:
       - db_data:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - ${DB_PORT}:5432
     restart: unless-stopped
     environment:
       PGDATA: /var/lib/postgresql/data
