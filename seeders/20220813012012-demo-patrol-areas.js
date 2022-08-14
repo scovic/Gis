@@ -3,6 +3,7 @@
 module.exports = {
     async up (queryInterface, Sequelize) {
         const patrolAreas = [{
+            id: "698ea1af-4ba5-4029-ba41-bb39d09c2c73",
             name: "Park Svetog Save",
             area: {
                 type: "Polygon",
@@ -16,6 +17,7 @@ module.exports = {
             }
         },
         {
+            id: "1eedef12-4788-431b-a280-f22879f1ab30",
             name: "Cair",
             area: {
                 type: "Polygon",
@@ -35,8 +37,8 @@ module.exports = {
             }
         }];
         
-        const preparedData = patrolAreas.map(({ name, area }) => ({
-            name: name,
+        const preparedData = patrolAreas.map(({ area, ...rest }) => ({
+            ...rest,
             area: Sequelize.fn("ST_GeomFromGeoJSON", JSON.stringify(area)),
         }));
 
