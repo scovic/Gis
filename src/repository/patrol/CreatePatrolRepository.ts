@@ -41,7 +41,7 @@ export default class CreatePatrolRepository implements ICreatePatrolGateway {
             patrol.memberIds.map(memberId => memberId.getId())
         );
 
-        const promiseArray = [];
+        const promiseArray: any[] = [];
         promiseArray.push(addMembersPromise);
 
         if (patrol.stopIds) {
@@ -60,7 +60,7 @@ export default class CreatePatrolRepository implements ICreatePatrolGateway {
             promiseArray.push(addPatrolAreaPromise);
         }
 
-        await Promise.all(promiseArray);
+        await Promise.all([...promiseArray]);
 
         const patrolTeam = await this._getPatrolTeam(patrol.memberIds);
         const status: PatrolStatus = (<any>PatrolStatus)[patrolRow.status];

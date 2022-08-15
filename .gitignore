@@ -4,3 +4,4 @@ test.ts
 tips.txt
 todo
 .vscode/launch.json
+package-lock.json

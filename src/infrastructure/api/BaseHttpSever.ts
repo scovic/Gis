@@ -1,7 +1,7 @@
 import express, { Application } from "express";
+import morgan from "morgan";
 import { ServerConfig } from "../../config/Config";
 import Dependency from "../../dependency";
-
 
 export class HttpServerError extends Error {
     constructor (message: string) {
@@ -19,6 +19,7 @@ export default abstract class BaseHttpServer {
         const app = express();
         app.use(express.json());
         app.use(express.urlencoded({ extended: true }));
+        app.use(morgan("tiny"));
 
         this.bindRoutes(app)
             .listen(port, () => console.log(`HttpServer ${webRoot} is listening on port ${port}`));
