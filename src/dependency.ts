@@ -77,9 +77,9 @@ export default class Dependency {
         const employeeDataSource = new EmployeeDataSource(this.knex);
         const patrolStopDataSource = new PatrolStopDataSource(this.knex);
         const patrolDataSource = new PatrolDataSource(this.knex);
-        const patrolEmployeeMap = new PatrolEmployeeMapDataSource(this.knex);
-        const patrolPatrolStopMap = new PatrolPatrolStopMapDataSource(this.knex);
-        const patrolPatrolAreaMap = new PatrolPatrolAreaMapDataSource(this.knex);
+        const patrolEmployeeMapDataSource = new PatrolEmployeeMapDataSource(this.knex);
+        const patrolPatrolStopMapDataSource = new PatrolPatrolStopMapDataSource(this.knex);
+        const patrolPatrolAreaMapDataSource  = new PatrolPatrolAreaMapDataSource(this.knex);
         const patrolAreaDataSource = new PatrolAreaDataSource(this.knex);
 
         return new RepositoryFactory(
@@ -88,17 +88,19 @@ export default class Dependency {
             new CreatePatrolRepository(
                 patrolDataSource,
                 patrolStopDataSource,
-                patrolEmployeeMap,
+                patrolEmployeeMapDataSource,
                 employeeDataSource,
-                patrolPatrolStopMap
+                patrolPatrolStopMapDataSource,
+                patrolAreaDataSource,
+                patrolPatrolAreaMapDataSource 
             ),
             new UpdatePatrolStatusRepository(patrolDataSource),
             new GetPatrolRepository(
                 patrolDataSource,
                 patrolStopDataSource,
-                patrolEmployeeMap,
-                patrolPatrolStopMap,
-                patrolPatrolAreaMap,
+                patrolEmployeeMapDataSource,
+                patrolPatrolStopMapDataSource,
+                patrolPatrolAreaMapDataSource ,
                 patrolAreaDataSource,
                 employeeDataSource
             ),

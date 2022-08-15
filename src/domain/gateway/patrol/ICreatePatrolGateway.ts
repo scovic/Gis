@@ -3,9 +3,10 @@ import TimePeriod from "../../valueObject/TimePeriod";
 import UUID from "../../valueObject/UUID";
 
 export type PatrolInputData = {
-    stopIds: UUID[],
-    memberIds: UUID[],
-    period: TimePeriod,
+    memberIds: UUID[]
+    stopIds?: UUID[]
+    areaId?: UUID
+    period: TimePeriod
     status: PatrolStatus
 }
 

@@ -1,4 +1,3 @@
-import { DummyArea } from "../valueObject/Area";
 import EntityList from "../valueObject/EntityList";
 import TimePeriod from "../valueObject/TimePeriod";
 import UUID from "../valueObject/UUID";

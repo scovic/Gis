@@ -1,4 +1,5 @@
 import { ErrorCodes } from "./ErrorCodes";
+import { BadRequestError, NotFoundError } from "./Errors";
 
 export type ErrorResponseData = {
     message: string;
@@ -11,23 +12,23 @@ export default class ErrorProcessor {
         private _defaultError: ErrorResponseData
     ) {}
 
-    public process (error?: Error): ErrorResponseData {
-        let errorObject = this._defaultError;
-    
-        if (error && error.message.toLowerCase().includes("not found")) {
-            errorObject = {
-                message: "Not found",
+    public process (error: Error): ErrorResponseData {
+        switch (error.name) {
+        case "NotFoundError": 
+            return {
+                message:  error.message,
                 status: 404,
                 errorCode: ErrorCodes.NOT_FOUND
             };
-        } else if (error && error.message.toLowerCase().includes("bad parameter")) {
-            errorObject = {
-                message: `Bad Request - ${error.message}`,
+                
+        case "BadRequestError": 
+            return {
+                message: error.message,
                 status: 400,
-                errorCode: ErrorCodes.BAD_PARAMETERS
+                errorCode: ErrorCodes.BAD_REQUEST
             };
+        default:
+            return this._defaultError;
         }
-
-        return errorObject;
     }
 }

@@ -27,6 +27,7 @@ export default class PatrolRouter extends BaseRouter {
         this.createPatrolController.createPatrol({
             patrolStopIds: req.body.patrolStopIds,
             teamMembersIds: req.body.teamMembersIds,
+            patrolAreaId: req.body.patrolAreaId,
             from: req.body.from,
             to: req.body.to
         }, res);

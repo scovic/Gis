@@ -11,16 +11,21 @@ export type CoordProps = {
     lat: number
 }
 
+export type CoordsInput = {
+    lon: number | string
+    lat: number | string
+}
+
 export default class Coords extends ValueObject<CoordProps> {
-    public static create (props: CoordProps): Coords {
-        if (!this.isValid(props.lat, props.lon)) {
+    public static create (props: CoordsInput): Coords {
+        if (!this.isValid(Number(props.lat), Number(props.lon))) {
             throw new LocationError("Lat or Lon value is not valid");
         }
 
-        return new Coords(props);
+        return new Coords({ lat: Number(props.lat), lon: Number(props.lon) });
     }
 
-    public static isValid (lat: number, lon: number) {
+    public static isValid (lat: number, lon: number): boolean {
         return lon >= 0 && Math.abs(lon) <= 180 &&
             lat >= 0 && Math.abs(lat) <= 90;
     }

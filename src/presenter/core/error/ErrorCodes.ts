@@ -2,5 +2,5 @@
 export const ErrorCodes = {
     SERVER_ERROR: "SERVER_ERROR",
     NOT_FOUND: "NOT_FOUND",
-    BAD_PARAMETERS: "BAD_PARAMETERS"
+    BAD_REQUEST: "BAD_REQUEST"
 };
