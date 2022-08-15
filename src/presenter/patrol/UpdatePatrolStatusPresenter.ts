@@ -1,16 +1,17 @@
 import Patrol from "../../domain/entity/Patrol";
 import { ICreatePatrolOutput } from "../../domain/usecase/patrol/CreatePatrolUseCase";
+import { BadRequestError } from "../core/error/Errors";
 import HttpPresenter from "../core/HttpPresenter/HttpPresenter";
 import PatrolPresentation from "../PatrolPresentetation";
 
 
 export default class UpdatePatrolStatusPresenter extends HttpPresenter implements ICreatePatrolOutput {
     public displayError (error: Error): void {
-        let errMsg = error.message;
-        if (errMsg.toLowerCase().includes("is not supported")) {
-            errMsg = "Bad Parameter - status";
+        let err = error;
+        if (error.message.toLowerCase().includes("is not supported")) {
+            err = new BadRequestError("Bad Parameter - status");
         }
-        super.displayError(new Error(errMsg));
+        super.displayError(err);
     }
 
     public displaySuccess (patrol: Patrol): void {
