@@ -29,7 +29,7 @@ export default class GetPatrolInteractor implements IGetPatrolInput {
 
     public async getPatrol (data: GetPatrolInputData): Promise<void> {
         try {
-            return this.interact(data);
+            await this.interact(data);
         } catch (err: any) {
             this.output.displayError(err);
         }

@@ -20,7 +20,7 @@ export default class PatrolStopDataSource extends DatabaseDataSource implements 
                 .build();
 
             const patrolStopRows = await this.knex.raw(query);
-            return this._convertDbRowsToData(patrolStopRows);
+            return this._convertDbRowsToData(patrolStopRows.rows);
             
         } catch (err: any) {
             throw new PatrolStopDataSourceError(err.message);
@@ -30,13 +30,13 @@ export default class PatrolStopDataSource extends DatabaseDataSource implements 
     public async getPatrolStopsInArea (areaId: string): Promise<PatrolStopData[]> {
         try {
             const query = `
-                select patrol_stop.id as id, patrol_stop.name as name, patrol_stop.location as location 
+                select patrol_stop.id as id, patrol_stop.name as name, ST_AsGeoJson(patrol_stop.location) as location 
                 from patrol_stop, patrol_area
-                where patrol_area.id = '${areaId} and ST_Within(patrol_stop.location, patrol_area.area);'
+                where patrol_area.id = '${areaId}' and ST_Within(patrol_stop.location, patrol_area.area);
             `;
 
             const patrolStopRows = await this.knex.raw(query);
-            return this._convertDbRowsToData(patrolStopRows);
+            return this._convertDbRowsToData(patrolStopRows.rows);
         } catch (err: any) {
             throw new PatrolStopDataSourceError(err.message);
         }

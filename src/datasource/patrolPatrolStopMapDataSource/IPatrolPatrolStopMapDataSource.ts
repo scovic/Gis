@@ -7,4 +7,5 @@ export type PatrolPatrolStopMapData = {
 
 export interface IPatrolPatrolStopMapDataSource {
     getPatrolStops (patrolId: string): Promise<PatrolPatrolStopMapData[]>
+    addPatrolStopsToPatrol (patrolId: string, patrolStopsIds: string[]): Promise<PatrolPatrolStopMapData[]>
 }

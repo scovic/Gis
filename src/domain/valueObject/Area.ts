@@ -1,4 +1,4 @@
-import Location from "./Location";
+import Coords from "./Coords";
 import ValueObject from "./ValueObject";
 
 export class AreaError extends Error {
@@ -8,7 +8,7 @@ export class AreaError extends Error {
 }
 
 export type AreaProps = {
-    coords: Location[]
+    coords: Coords[]
 }
 
 export default class Area extends ValueObject<AreaProps> {
@@ -21,7 +21,7 @@ export default class Area extends ValueObject<AreaProps> {
         return new Area(props);
     }
 
-    private static isValid (props: AreaProps): boolean {
+    protected static isValid (props: AreaProps): boolean {
         if (!props || !props.coords || props.coords.length === 0) {
             return false;
         }
@@ -45,5 +45,15 @@ export default class Area extends ValueObject<AreaProps> {
         return true;
     }
 
-    public get coords (): Location[] { return this.getValue().coords; }
+    public get coords (): Coords[] { return this.getValue().coords; }
+}
+
+export class DummyArea extends Area {
+    constructor () {
+        super ({ coords: [] });
+    }
+
+    static isValid (props: AreaProps): boolean {
+        return true;
+    }
 }

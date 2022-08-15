@@ -34,6 +34,10 @@ export default class EntityList <ItemType extends EntityType> extends ValueObjec
         return foundItems[0];
     }
 
+    public isEmpty (): boolean {
+        return this.getLength() === 0;
+    }
+
     public addItem (item: ItemType): void {
         this.getValue().push(item);
     }

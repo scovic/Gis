@@ -45,7 +45,7 @@ export default class CreatePatrolInteractor implements ICreatePatrolInput {
 
     private async interact (data: CreatePatrolInputData): Promise<void> {
         const patrolStopIds = data.patrolStopIds.map(id => UUID.create(id));
-        const period = TimePeriod.create({ from: data.from, to: data.to });
+        const period = TimePeriod.create({ from: Number(data.from), to: Number(data.to) });
         const id = await this.idGenerator.generate();
         
         const patrol = await this.createPatrolGateway.createPatrol(

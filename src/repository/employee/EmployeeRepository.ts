@@ -17,7 +17,7 @@ export default class EmployeeRepository implements IEmployeeGateway {
     public async createEmployee (id: UUID, props: EmployeeProps): Promise<Employee> {
         try {
             const row = await this._datasource.createEmployee({
-                id: id.getValue(),
+                id: id.getId(),
                 firstName: props.firstName.getValue(),
                 lastName: props.lastName.getValue()
             });

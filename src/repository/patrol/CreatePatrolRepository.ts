@@ -9,7 +9,7 @@ import PatrolStop from "../../domain/entity/PatrolStop";
 import { ICreatePatrolGateway, PatrolInputData } from "../../domain/gateway/patrol/ICreatePatrolGateway";
 import EntityList from "../../domain/valueObject/EntityList";
 import NonEmptyString from "../../domain/valueObject/NonEmptyString";
-import Location from "../../domain/valueObject/Location";
+import Coords from "../../domain/valueObject/Coords";
 import TimePeriod from "../../domain/valueObject/TimePeriod";
 import UUID from "../../domain/valueObject/UUID";
 
@@ -30,13 +30,21 @@ export default class CreatePatrolRepository implements ICreatePatrolGateway {
             end: `${patrol.period.getValue().to}`,
         });
         
-        await this.patrolEmployeeMapDataSource.addMembersToPatrol(
+        const addMembersPromise = this.patrolEmployeeMapDataSource.addMembersToPatrol(
             id.getId(),
             patrol.memberIds.map(memberId => memberId.getId())
         );
-        
-        const patrolStops = await this._getPatrolStops(id);
-        const patrolTeam = await this._getPatrolTeam(patrol.memberIds);
+
+        const addPatrolStopsPromise = this.patrolPatrolStopMapDataSource.addPatrolStopsToPatrol(
+            id.getId(),
+            patrol.stopIds.map(stopId => stopId.getId())
+        );
+
+        await Promise.all([addMembersPromise, addPatrolStopsPromise]);
+      
+        const getPatrolStopsPromise =  this._getPatrolStops(patrol.stopIds);
+        const getPatrolTeamPromise = this._getPatrolTeam(patrol.memberIds);
+        const [patrolStops, patrolTeam] = await Promise.all([getPatrolStopsPromise, getPatrolTeamPromise]);
         const status: PatrolStatus = (<any>PatrolStatus)[patrolRow.status];
 
         return new Patrol(id, {
@@ -47,10 +55,9 @@ export default class CreatePatrolRepository implements ICreatePatrolGateway {
         });
     }
 
-    private async _getPatrolStops (patrolId: UUID): Promise<EntityList<PatrolStop>> {
-        const patrolStopPatrolMap = await this.patrolPatrolStopMapDataSource.getPatrolStops(patrolId.getId());
+    private async _getPatrolStops (patrolStopsIds: UUID[]): Promise<EntityList<PatrolStop>> {
         const patrolStopRows = await this.patrolStopDataSource.getStopsByIds(
-            patrolStopPatrolMap.map(patrolPatrolStop => patrolPatrolStop.id)
+            patrolStopsIds.map(patrolPatrolStopId => patrolPatrolStopId.getId())
         );
 
         return EntityList.create(
@@ -74,7 +81,7 @@ export default class CreatePatrolRepository implements ICreatePatrolGateway {
             UUID.create(PatrolStopData.id),
             {
                 name: PatrolStopData.name,
-                location: Location.create({ 
+                location: Coords.create({ 
                     lat: Number(PatrolStopData.location.lat), 
                     lon: Number(PatrolStopData.location.lon) 
                 })

@@ -22,6 +22,24 @@ export default class PatrolPatrolStopMapDataSource extends DatabaseDataSource im
         }
     }
 
+    public async  addPatrolStopsToPatrol (patrolId: string, patrolStopsIds: string[]): Promise<PatrolPatrolStopMapData[]> {
+        try {
+            const patrolPatrolStopMap = patrolStopsIds.map(patrolStopId => ({
+                patrol_id: patrolId,
+                patrol_stop_id: patrolStopId
+            }));
+
+            const insertedRows = await this.knex(this._tableName)
+                .insert(patrolPatrolStopMap)
+                .returning("*");
+
+            return this._convertDbRowsToData(insertedRows);
+        } catch (err: any) {
+            throw new PatrolPatrolStopMapDataSourceError(err.message);
+        }
+    }
+    
+
     private _convertDbRowsToData (rows: any): PatrolPatrolStopMapData[] {
         return rows.map((row: any)=> ({
             id: row.id,

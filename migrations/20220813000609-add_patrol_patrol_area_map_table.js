@@ -17,6 +17,10 @@ module.exports = {
         await queryInterface.sequelize.query(
             "ALTER TABLE patrol_patrol_area_map ADD CONSTRAINT patrol_fk FOREIGN KEY (patrol_id) REFERENCES patrol (id)"
         );
+
+        await queryInterface.sequelize.query(
+            "ALTER TABLE patrol_patrol_area_map ADD CONSTRAINT patrol_patrol_area_uq UNIQUE (patrol_id, patrol_area_id)"
+        );
     },
 
     async down (queryInterface, Sequelize) {

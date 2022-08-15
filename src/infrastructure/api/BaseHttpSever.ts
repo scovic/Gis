@@ -16,7 +16,11 @@ export default abstract class BaseHttpServer {
 
     public start ({ webRoot, port }: ServerConfig): void {
         this.checkIfStarted();
-        this.bindRoutes(express())
+        const app = express();
+        app.use(express.json());
+        app.use(express.urlencoded({ extended: true }));
+
+        this.bindRoutes(app)
             .listen(port, () => console.log(`HttpServer ${webRoot} is listening on port ${port}`));
     }
 

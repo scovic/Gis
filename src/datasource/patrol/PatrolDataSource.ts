@@ -12,12 +12,12 @@ export default class PatrolDataSource extends DatabaseDataSource implements IPat
 
     public async createPatrol (patrolInput: PatrolData): Promise<PatrolData> {
         try {
-            const patrolRow = await this.knex(this._tableName)
+            const [patrolRow] = await this.knex(this._tableName)
                 .insert({
                     id: patrolInput.id,
                     status: patrolInput.status,
-                    start: patrolInput.start,
-                    end: patrolInput.end
+                    start: new Date(Number(patrolInput.start)),
+                    end: new Date(Number(patrolInput.end))
                 })
                 .returning("*");
             
@@ -34,8 +34,8 @@ export default class PatrolDataSource extends DatabaseDataSource implements IPat
                 .where({ id })
                 .update({
                     status: rest.status,
-                    start: new Date(rest.start),
-                    end: new Date(rest.end)
+                    start: new Date(Number(rest.start)),
+                    end: new Date(Number(rest.end))
                 })
                 .returning("*");
 
@@ -49,9 +49,10 @@ export default class PatrolDataSource extends DatabaseDataSource implements IPat
         try {
             const patrolRow = await this.knex(this._tableName)
                 .select("*")
-                .where({ id });
+                .where({ id })
+                .first();
 
-            return this._convertToPatrolData(patrolRow);
+            return patrolRow && this._convertToPatrolData(patrolRow);
         } catch (err: any) {
             throw new PatrolDataSourceError(err.message);
         }

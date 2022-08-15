@@ -2,22 +2,22 @@ import ValueObject from "./ValueObject";
 
 export class LocationError extends Error {
     constructor (message: string) {
-        super(`[Location] Error - ${message}`);
+        super(`[Coords] Error - ${message}`);
     }
 }
 
-export type LocationProps = {
+export type CoordProps = {
     lon: number
     lat: number
 }
 
-export default class Location extends ValueObject<LocationProps> {
-    public static create (props: LocationProps): Location {
+export default class Coords extends ValueObject<CoordProps> {
+    public static create (props: CoordProps): Coords {
         if (!this.isValid(props.lat, props.lon)) {
             throw new LocationError("Lat or Lon value is not valid");
         }
 
-        return new Location(props);
+        return new Coords(props);
     }
 
     public static isValid (lat: number, lon: number) {
@@ -25,7 +25,7 @@ export default class Location extends ValueObject<LocationProps> {
             lat >= 0 && Math.abs(lat) <= 90;
     }
     
-    public isEqual (object?: ValueObject<LocationProps>): boolean {
+    public isEqual (object?: ValueObject<CoordProps>): boolean {
         if (!object) { return false; }
 
         return this.getValue().lat === object.getValue().lat &&

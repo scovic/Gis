@@ -11,6 +11,7 @@ import EmployeeDataSource from "./datasource/employee/EmployeeDataSource";
 import PatrolDataSource from "./datasource/patrol/PatrolDataSource";
 import PatrolAreaDataSource from "./datasource/patrolAreaDataSource/PatrolAreaDataSource";
 import PatrolEmployeeMapDataSource from "./datasource/patrolEmployeeMapDataSource/PatrolEmployeeMapDataSource";
+import PatrolPatrolAreaMapDataSource from "./datasource/patrolPatrolAreaMapDataSource/PatrolPatrolAreaMapDataSource";
 import PatrolPatrolStopMapDataSource from "./datasource/patrolPatrolStopMapDataSource/PatrolPatrolStopMapDataSource";
 import PatrolStopDataSource from "./datasource/patrolStop/PatrolStopDataSource";
 
@@ -61,11 +62,11 @@ export default class Dependency {
     }
 
     public getGetPatrolAreasController (): GetPatrolAreasController {
-        return new GetPatrolAreasController(this.repositoryFactory)
+        return new GetPatrolAreasController(this.repositoryFactory);
     }
 
     public getGetPatrolStopsInsideAreaController (): GetPatrolStopsInsideAreaController {
-        return new GetPatrolStopsInsideAreaController(this.repositoryFactory)
+        return new GetPatrolStopsInsideAreaController(this.repositoryFactory);
     }
 
     public getConfig (): Config {
@@ -78,6 +79,7 @@ export default class Dependency {
         const patrolDataSource = new PatrolDataSource(this.knex);
         const patrolEmployeeMap = new PatrolEmployeeMapDataSource(this.knex);
         const patrolPatrolStopMap = new PatrolPatrolStopMapDataSource(this.knex);
+        const patrolPatrolAreaMap = new PatrolPatrolAreaMapDataSource(this.knex);
         const patrolAreaDataSource = new PatrolAreaDataSource(this.knex);
 
         return new RepositoryFactory(
@@ -96,6 +98,8 @@ export default class Dependency {
                 patrolStopDataSource,
                 patrolEmployeeMap,
                 patrolPatrolStopMap,
+                patrolPatrolAreaMap,
+                patrolAreaDataSource,
                 employeeDataSource
             ),
             new GetPatrolAreasRepository(patrolAreaDataSource),

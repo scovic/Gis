@@ -13,13 +13,13 @@ export default class EmployeeDataSource extends DatabaseDataSource implements IE
 
     public async createEmployee (inputData: DatabaseEmployeeInput): Promise<DatabaseEmployeeData> {
         try {
-            const employeeRow = await this.knex(this._tableName)
+            const [employeeRow] = await this.knex(this._tableName)
                 .insert({
                     id: inputData.id,
                     first_name: inputData.firstName,
                     last_name: inputData.lastName
                 })
-                .returning("*");
+                .returning("*"); 
                 
             return this.convertToEmployeeData(employeeRow);
         } catch (err: any) {
@@ -80,11 +80,11 @@ export default class EmployeeDataSource extends DatabaseDataSource implements IE
         }
     }
 
-    private convertToEmployeeData (row: any[]): DatabaseEmployeeData {
+    private convertToEmployeeData (row: any): DatabaseEmployeeData {
         return {
-            id: row[0].id,
-            firstName: row[0].first_name,
-            lastName: row[0].last_name
+            id: row.id,
+            firstName: row.first_name,
+            lastName: row.last_name
         };
     }
 }

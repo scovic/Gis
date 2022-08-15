@@ -1,10 +1,12 @@
 import Patrol from "../domain/entity/Patrol";
 import EmployeePresentation from "./EmployeePresentation";
+import PatrolAreaPresentation from "./PatrolAreaPresentation";
 import PatrolStopPresentation from "./PatrolStopPresentation";
 
 export type PatrolPresentationData = {
     id: string,
-    stops: PatrolStopPresentation[],
+    stops?: PatrolStopPresentation[],
+    area?: PatrolAreaPresentation,
     team: EmployeePresentation[],
     period: {
         from: number,
@@ -15,11 +17,8 @@ export type PatrolPresentationData = {
 
 export default class PatrolPresentation {
     public static present (patrol: Patrol): PatrolPresentationData {
-        return {
+        const patrolPresentation: PatrolPresentationData = {
             id: patrol.id.getId(),
-            stops: patrol.stops.getValue().map(stop => (
-                PatrolStopPresentation.present(stop)
-            )),
             team: patrol.team.getValue().map(employee => (
                 EmployeePresentation.present(employee)
             )),
@@ -29,5 +28,15 @@ export default class PatrolPresentation {
             },
             status: patrol.status
         };
+
+        if (!patrol.stops.isEmpty()) {
+            patrolPresentation.stops = patrol.stops.getValue().map(stop => (
+                PatrolStopPresentation.present(stop)
+            ));
+        } else {
+            patrolPresentation.area = PatrolAreaPresentation.present(patrol.area);
+        }
+
+        return patrolPresentation;
     }
 }

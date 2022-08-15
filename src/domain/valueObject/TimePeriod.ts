@@ -27,7 +27,7 @@ export default class TimePeriod extends ValueObject<TimePeriodProps> {
     }
 
     private static isValid (from: Date, to: Date): boolean {
-        return from.getTime() > to.getTime();
+        return from.getTime() < to.getTime();
     }
 
     public isEqual (object?: ValueObject<TimePeriodProps>): boolean {

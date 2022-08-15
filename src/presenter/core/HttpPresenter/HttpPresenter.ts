@@ -27,7 +27,7 @@ export default class HttpPresenter implements IHttpPresenter {
     
     public displayError (error: Error): void {
         this.log(error);
-        const { errorCode, status, message } = this.errorProcessor.process();
+        const { errorCode, status, message } = this.errorProcessor.process(error);
         this.respond({
             json: { errorCode, message },
             status: status

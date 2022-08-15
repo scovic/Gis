@@ -1,7 +1,7 @@
 import { IPatrolStopDataSource, PatrolStopData } from "../../datasource/patrolStop/IPatrolStopDataSource";
 import PatrolStop from "../../domain/entity/PatrolStop";
 import { IGetPatrolStopsInsideAreaGateway } from "../../domain/gateway/patrol/IGetPatrolStopsInsideAreaGateway";
-import Location from "../../domain/valueObject/Location";
+import Coords from "../../domain/valueObject/Coords";
 import UUID from "../../domain/valueObject/UUID";
 
 export default class GetPatrolStopsInsideAreaRepository implements IGetPatrolStopsInsideAreaGateway {
@@ -19,7 +19,7 @@ export default class GetPatrolStopsInsideAreaRepository implements IGetPatrolSto
             UUID.create(patrolStop.id),
             {
                 name: patrolStop.name,
-                location: Location.create({
+                location: Coords.create({
                     lat: Number(patrolStop.location.lat),
                     lon: Number(patrolStop.location.lon)
                 })

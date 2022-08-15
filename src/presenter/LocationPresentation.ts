@@ -1,4 +1,4 @@
-import Location from "../domain/valueObject/Location";
+import Coords from "../domain/valueObject/Coords";
 
 export type LocationPresentationData = {
     lat: number
@@ -6,7 +6,7 @@ export type LocationPresentationData = {
 }
 
 export default class LocationPresentation {
-    public static present (location: Location): LocationPresentationData {
+    public static present (location: Coords): LocationPresentationData {
         return {
             lat: location.lat,
             lon: location.lon

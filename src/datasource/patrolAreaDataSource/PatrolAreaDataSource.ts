@@ -18,9 +18,9 @@ export default class PatrolAreaDataSource extends DatabaseDataSource implements 
                 .select(this._tableName, { geoColumns: ["area"]})
                 .where("id", id)
                 .build();
-        
-            const row = await this.knex.raw(query);
-            return this._dbRowToData(row);
+
+            const result = await this.knex.raw(query);
+            return result && result.rows && this._dbRowToData(result.rows[0]);
         } catch (err: any) {
             throw new PatrolAreaDataSourceError(err.message);
         }
@@ -47,7 +47,7 @@ export default class PatrolAreaDataSource extends DatabaseDataSource implements 
                 .build();
 
             const rows = await this.knex.raw(query);
-            return rows.map((row: any) => this._dbRowToData(row));
+            return rows.rows.map((row: any) => this._dbRowToData(row));
         } catch (err: any) {
             throw new PatrolAreaDataSourceError(err.message);
         }
