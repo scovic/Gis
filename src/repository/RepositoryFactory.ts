@@ -3,6 +3,7 @@ import { IIdGenerator } from "../domain/gateway/IIdGenerator";
 import { ICreatePatrolGateway } from "../domain/gateway/patrol/ICreatePatrolGateway";
 import { IGetPatrolAreasGateway } from "../domain/gateway/patrol/IGetPatrolAreasGateway";
 import { IGetPatrolGateway } from "../domain/gateway/patrol/IGetPatrolGateway";
+import { IGetPatrolStopsGateway } from "../domain/gateway/patrol/IGetPatrolStopsGateway";
 import { IGetPatrolStopsInsideAreaGateway } from "../domain/gateway/patrol/IGetPatrolStopsInsideAreaGateway";
 import { IUpdatePatrolStatusGateway } from "../domain/gateway/patrol/IUpdatePatrolStatusGateway";
 import UUID from "../domain/valueObject/UUID";
@@ -15,7 +16,8 @@ export default class RepositoryFactory {
         private readonly updatePatrolStatusRepository: IUpdatePatrolStatusGateway,
         private readonly getPatrolRepository: IGetPatrolGateway,
         private readonly getPatrolAreasRepository: IGetPatrolAreasGateway,
-        private readonly getPatrolStopsInsideAreaRepository: IGetPatrolStopsInsideAreaGateway
+        private readonly getPatrolStopsInsideAreaRepository: IGetPatrolStopsInsideAreaGateway,
+        private readonly getPatrolStopsRepository: IGetPatrolStopsGateway
     ) { }
 
     public getIdGeneratorRepository (): IIdGenerator<UUID> {
@@ -44,5 +46,9 @@ export default class RepositoryFactory {
 
     public getGetPatrolStopsInsideAreaRepository (): IGetPatrolStopsInsideAreaGateway {
         return this.getPatrolStopsInsideAreaRepository;
+    }
+
+    public getGetPatrolStopsForPatrolRepository (): IGetPatrolStopsGateway {
+        return this.getPatrolStopsRepository;
     }
 }

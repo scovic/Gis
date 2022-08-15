@@ -42,6 +42,15 @@ export default class PatrolStopDataSource extends DatabaseDataSource implements 
         }
     }
 
+    public async getPatrolStops (): Promise<PatrolStopData[]> {
+        const query = new SpatialQueryBuilder()
+            .select(this._tableName, { geoColumns: ["location"]})
+            .build();
+        
+        const patrolStopRows = await this.knex.raw(query);
+        return this._convertDbRowsToData(patrolStopRows.rows);
+    }
+
     private _convertDbRowsToData (rows: any[]): PatrolStopData[]  {
         return rows.map(row => {
             const [lon, lat] = JSON.parse(row.location).coordinates;

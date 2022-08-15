@@ -42,7 +42,6 @@ export default class PatrolRouter extends BaseRouter {
 
     public getRouter (): Router {
         return Router()
-            .get("/", (req, res) => { console.log("hello");}) // for getting patrol stops
             .get("/:id", (req, res) => this.getPatrol(req, res))
             .post("/", (req, res) => this.createPatrol(req, res))
             .put("/:id/status", (req, res) => this.updatePatrolStatus(req, res));

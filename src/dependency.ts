@@ -6,6 +6,7 @@ import GetPatrolAreasController from "./controller/patrol/GetPatrolAreasControll
 import GetPatrolController from "./controller/patrol/GetPatrolController";
 import GetPatrolStopsInsideAreaController from "./controller/patrol/GetPatrolStopsInsideAreaController";
 import UpdatePatrolStatusController from "./controller/patrol/UpdatePatrolStatusController";
+import GetPatrolStopsController from "./controller/patrol/GetPatrolStopsController";
 
 import EmployeeDataSource from "./datasource/employee/EmployeeDataSource";
 import PatrolDataSource from "./datasource/patrol/PatrolDataSource";
@@ -22,6 +23,7 @@ import IdGeneratorRepository from "./repository/IdGeneratorRepository";
 import CreatePatrolRepository from "./repository/patrol/CreatePatrolRepository";
 import GetPatrolAreasRepository from "./repository/patrol/GetPatrolAreasRepository";
 import GetPatrolRepository from "./repository/patrol/GetPatrolRepository";
+import GetPatrolStopsRepository from "./repository/patrol/GetPatrolStopsRepository";
 import GetPatrolStopsInsideAreaRepository from "./repository/patrol/GetPatrolStopsInsideAreaRepository";
 import UpdatePatrolStatusRepository from "./repository/patrol/UpdatePatrolStatusRepository";
 import RepositoryFactory from "./repository/RepositoryFactory";
@@ -69,6 +71,10 @@ export default class Dependency {
         return new GetPatrolStopsInsideAreaController(this.repositoryFactory);
     }
 
+    public getGetPatrolStopsController (): GetPatrolStopsController {
+        return new GetPatrolStopsController(this.repositoryFactory);
+    }
+
     public getConfig (): Config {
         return this.config;
     }
@@ -105,7 +111,8 @@ export default class Dependency {
                 employeeDataSource
             ),
             new GetPatrolAreasRepository(patrolAreaDataSource),
-            new GetPatrolStopsInsideAreaRepository(patrolStopDataSource)
+            new GetPatrolStopsInsideAreaRepository(patrolStopDataSource),
+            new GetPatrolStopsRepository(patrolStopDataSource)
         );
     }
 }
